@@ -1,0 +1,28 @@
+name = "MHDSim"
+uuid = "2407bc2c-c923-4b10-8696-5010e821cf5d"
+authors = ["Adam Uchytil <uchytada@fel.cvut.cz>"]
+version = "0.1.0"
+
+[deps]
+BlockArrays = "8e7c35d0-a365-5155-bbbb-fb81a777f24e"
+Ferrite = "c061ca5d-56c9-439f-9c0e-210fe06d3992"
+FerriteGmsh = "4f95f4f8-b27c-4ae5-9a39-ea55e634e36b"
+IncompleteLU = "40713840-3770-5561-ab4c-a76e7d0d7895"
+JLD = "4138dd39-2aa7-5051-a626-17a0bb65d9c8"
+Krylov = "ba0b0d4f-ebba-5204-a429-3ac8c609bfb7"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+NearestNeighbors = "b8a86587-4115-5ab1-83bc-aa920d37bbce"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+UnPack = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
+
+[compat]
+BlockArrays = "0.16.43"
+Ferrite = "0.3.14"
+FerriteGmsh = "1.2.1"
+IncompleteLU = "0.2.1"
+JLD = "0.13.5"
+Krylov = "0.10.1"
+LinearAlgebra = "1.11.0"
+NearestNeighbors = "0.4.22"
+SparseArrays = "1.11.0"
+UnPack = "1.0.2"
