@@ -1,5 +1,4 @@
 using MHDSim
-using LinearAlgebra
 
 # Basic parameters
 n_el = 4 # Number of electrodes
@@ -7,7 +6,29 @@ n_mag = 4 # Number of electromagnets
 σ = 5 # Conductivity (S/m)
 Δt = 0.25 # Timestep (s)
 
-path_to_fields = joinpath(@__DIR__, "fields", "8mm_4electrodes_full") # Path to the folder with the fields
+# Function to resolve the path to the electric and magnetic fields data.
+function resolve_fields_path(name::String; base_dir="~/.julia/MHDSimFields", url_base::String)
+    base_dir = expanduser(base_dir)
+    path = joinpath(base_dir, name)
+    if !isdir(path)
+        println("Downloading field data '$name'...")
+        mkpath(base_dir)
+        archive = joinpath(base_dir, "$name.tar.gz")
+        url = joinpath(url_base, "$name.tar.gz")
+        Downloads.download(url, archive)
+        run(`tar -xzf $archive -C $base_dir`)
+    end
+    return path
+end
+
+# Download if needed and load into simulation
+path_to_fields = resolve_fields_path(
+    "fields_8mm_4el_4mag";
+    url_base = "https://github.com/aa4cc/MHDSim.jl/releases/download/v1.0"
+)
+
+
+# Initialize the simulation data
 
 data = SimData(path_to_fields, n_el, n_mag, σ, Δt) # Takes a lot of time 
 
