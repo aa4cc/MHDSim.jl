@@ -35,3 +35,7 @@ deps/
 
 # Package build
 Manifest.toml
+
+
+# Documentation
+docs/build/
