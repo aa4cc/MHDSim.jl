@@ -10,6 +10,8 @@ makedocs(
 )
 
 deploydocs(
-    repo = "https://github.com/aa4cc/MHDSim.jl",
-    devbranch = "main",
+    repo = "github.com/aa4cc/MHDSim.jl.git",
+    target = "build",
+    branch = "gh-pages",
+    devbranch = "main"
 )
