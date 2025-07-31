@@ -59,6 +59,7 @@ struct SimData{T<:Real,CT<:Ferrite.AbstractCell,CV_v<:CellValues,CV_p<:CellValue
     nϕ::Int
     nψ::Int
     Δt::T
+    ν::T
 end
 
 
@@ -685,7 +686,7 @@ function SimData(path_to_fields, nϕ, nψ, σ, ν, ρ, Δt; reuse_force_vectors=
         save(force_vectors_path, "f", f, "nphi", nϕ, "npsi", nψ)
     end
 
-    data = SimData(grid, colors, cellvalues_v, cellvalues_p, facevalues_p, dh_v, dh_p, ch_v, ch_p, M, K, G, R, A₀, R_f, M_f, rhsdata_M, rhsdata_R, f, nϕ, nψ, Δt)
+    data = SimData(grid, colors, cellvalues_v, cellvalues_p, facevalues_p, dh_v, dh_p, ch_v, ch_p, M, K, G, R, A₀, R_f, M_f, rhsdata_M, rhsdata_R, f, nϕ, nψ, Δt, ν)
 
     @info "Simulation data has been set up"
 
@@ -751,7 +752,7 @@ end
 
 function solve_step(data::SimData, state::SimState, ϕ::Vector{T}, ψ::Vector{T}, cache=nothing) where {T<:Real}
 
-    @unpack grid, colors, cellvalues_v, cellvalues_p, facevalues_p, dh_v, dh_p, ch_v, ch_p, M, K, G, R, A₀, R_f, M_f, rhsdata_M, rhsdata_R, f, nϕ, nψ, Δt = data
+    @unpack grid, colors, cellvalues_v, cellvalues_p, facevalues_p, dh_v, dh_p, ch_v, ch_p, M, K, G, R, A₀, R_f, M_f, rhsdata_M, rhsdata_R, f, nϕ, nψ, Δt, ν = data
 
     uₙ₋₁, uₙ₋₂, pₙ₋₁, pₙ₋₂, pₙ₋₃ = state.uₙ, state.uₙ₋₁, state.pₙ, state.pₙ₋₁, state.pₙ₋₂
 
