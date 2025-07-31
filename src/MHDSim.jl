@@ -10,11 +10,10 @@ using JLD
 using LinearAlgebra
 
 
-export SimData, SimState, solve_step, measure_velocity, measure_pressure, save_force_vectors, PointEvalHandler
+export SimData, SimState, solve_step, measure_velocity, measure_pressure, save_force_vectors, PointEvalHandler, paraview_collection, vtk_grid, vtk_point_data, vtk_save
 
 
-const ρ = 998.2 # Kg⋅m³
-const ν = 1.0016e-6 # m²/s
+
 const dim = 3
 
 
@@ -544,7 +543,7 @@ function assemble_convective_term_cell!(scratch::ScratchValuesVec, cell::Int, u:
     assemble!(assembler, global_dofs, Jₑ, fₑ)
 end
 
-function assemble_force_vectors(path_to_fields, nϕ::Int, nψ::Int, cellvalues_v::CellVectorValues{dim}, dh::DofHandler, σ::T) where {T<:Real}
+function assemble_force_vectors(path_to_fields, nϕ::Int, nψ::Int, cellvalues_v::CellVectorValues{dim}, dh::DofHandler, σ::T, ρ::T) where {T<:Real}
 
     f = zeros(nϕ, nψ, ndofs(dh))
 
@@ -642,7 +641,7 @@ function measure_pressure(state, data, peh)
 end
 
 
-function SimData(path_to_fields, nϕ, nψ, σ, Δt; reuse_force_vectors=false, force_vectors_path="force_vectors.jld")
+function SimData(path_to_fields, nϕ, nψ, σ, ν, ρ, Δt; reuse_force_vectors=false, force_vectors_path="force_vectors.jld")
 
     grid = generate_grid(0.0, 8e-3, 71.5e-3, 50e-3, 0.8, 4, 15, 15)
 
@@ -682,7 +681,7 @@ function SimData(path_to_fields, nϕ, nψ, σ, Δt; reuse_force_vectors=false, f
         nϕ = load(force_vectors_path, "nphi")
         nψ = load(force_vectors_path, "npsi")
     else
-        f = assemble_force_vectors(path_to_fields, nϕ, nψ, cellvalues_v[1], dh_v, σ)
+        f = assemble_force_vectors(path_to_fields, nϕ, nψ, cellvalues_v[1], dh_v, σ, ρ)
         save(force_vectors_path, "f", f, "nphi", nϕ, "npsi", nψ)
     end
 

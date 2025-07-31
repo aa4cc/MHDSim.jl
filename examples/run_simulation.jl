@@ -4,6 +4,8 @@ using MHDSim
 n_el = 4 # Number of electrodes
 n_mag = 4 # Number of electromagnets
 σ = 5 # Conductivity (S/m)
+ν = 1.0016e-6 # Kinematic viscosity (m²/s)
+ρ = 998.2 # Density (kg/m³)
 Δt = 0.25 # Timestep (s)
 
 # Function to resolve the path to the electric and magnetic fields data.
@@ -30,7 +32,7 @@ path_to_fields = resolve_fields_path(
 
 # Initialize the simulation data
 
-data = SimData(path_to_fields, n_el, n_mag, σ, Δt) # Takes a lot of time 
+data = SimData(path_to_fields, n_el, n_mag, σ, ν, ρ, Δt) # Takes a lot of time
 
 state = SimState(data) # Initial state of the simulation
 
